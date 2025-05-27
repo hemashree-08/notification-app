@@ -6,6 +6,10 @@ import './Dashboard.css';
 
 // Get the backend URL based on environment
 export const getBackendUrl = () => {
+  // Use environment variable if set (for Render or other cloud builds)
+  if (process.env.REACT_APP_BACKEND_URL) {
+    return process.env.REACT_APP_BACKEND_URL;
+  }
   const hostname = window.location.hostname;
   const port = window.location.port;
   
