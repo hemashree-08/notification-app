@@ -1,0 +1,17 @@
+version: 2
+
+authtoken: 2wOyI1YMLXWrqgJ8GSQnXqTughc_6dyKLapdMZ7eEmTr9JdvP
+
+# Define named tunnels for frontend and backend
+
+# Backend API (Express)
+tunnels:
+  backend:
+    addr: 3002
+    proto: http
+    inspect: false
+
+  frontend:
+    addr: 3003
+    proto: http
+    inspect: false 

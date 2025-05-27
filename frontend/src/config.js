@@ -1,0 +1,1 @@
+// Use getBackendUrl from Dashboard.js everywhere in the project for backend URL resolution. 
