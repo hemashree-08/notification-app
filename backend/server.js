@@ -65,11 +65,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Catch-all handler: for any request that doesn't match an API route, send back React's index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
-
 // SSE endpoint with dynamic CORS headers
 app.get('/api/alerts/events/:userId', (req, res) => {
   const allowedOrigins = [
@@ -96,6 +91,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/alerts')
 app.use((err, req, res, next) => {
   console.error('Error:', err);
   res.status(500).json({ message: err.message || 'Something went wrong!' });
+});
+
+// Catch-all handler: for any request that doesn't match an API route, send back React's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 82;
