@@ -54,12 +54,20 @@ const alertRoutes = require('./routes/alertRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/alerts', alertRoutes);
 
+// Serve static files from the React app build
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
 // Basic route for testing
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Live Alerts API is running',
     mongoStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
+});
+
+// Catch-all handler: for any request that doesn't match an API route, send back React's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
 // SSE endpoint with dynamic CORS headers
@@ -80,7 +88,7 @@ app.get('/api/alerts/events/:userId', (req, res) => {
 });
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/livealerts')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/alerts')
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
