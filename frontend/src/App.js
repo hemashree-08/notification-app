@@ -62,7 +62,7 @@ const App = () => {
           const endTime = performance.now();
           const processingTime = (endTime - startTime).toFixed(2);
           console.log(`[${new Date().toLocaleTimeString()}] Finished loading alerts in ${processingTime}ms`);
-          alert(`Notificationss loaded in ${processingTime}ms`);
+          alert(`Notifications loaded in ${processingTime}ms`);
         } catch (error) {
           console.error('Error fetching alerts:', error);
         }
