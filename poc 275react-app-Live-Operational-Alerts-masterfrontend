@@ -1,0 +1,5 @@
+* [33m333c186[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Update: login-only flow, CORS fix, UI cleanup, and bug fixes
+* [33m482dd38[m Update project with latest working code and fixes
+* [33m994a0df[m Test: update build with visible change
+* [33m36bc7ca[m Test: update build with visible change
+* [33m9b2b3a6[m Add frontend build for deployment

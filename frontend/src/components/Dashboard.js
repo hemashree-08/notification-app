@@ -6,19 +6,28 @@ import './Dashboard.css';
 
 // Get the backend URL based on environment
 export const getBackendUrl = () => {
-  // Always use deployed backend for production
+  // 1. Use deployed backend in production (Render, Vercel, Netlify, etc.)
   if (process.env.NODE_ENV === 'production') {
-    return 'https://notification-app-backend.onrender.com';
+    return process.env.REACT_APP_BACKEND_URL || 'https://notification-app-backend.onrender.com';
   }
-  // Use environment variable if set (for local dev override)
-  if (process.env.REACT_APP_BACKEND_URL) {
-    return process.env.REACT_APP_BACKEND_URL;
+  // 2. Use .env override for local dev if set
+  if (process.env.REACT_APP_ENV === 'ngrok' && process.env.REACT_APP_NGROK_BACKEND_URL) {
+    return process.env.REACT_APP_NGROK_BACKEND_URL;
   }
+  if (process.env.REACT_APP_ENV === 'local' && process.env.REACT_APP_LOCAL_BACKEND_URL) {
+    return process.env.REACT_APP_LOCAL_BACKEND_URL;
+  }
+  // 3. Fallbacks for local dev
   const hostname = window.location.hostname;
   const port = window.location.port;
   if (hostname === 'localhost' && port === '3003') {
     return 'http://localhost:3002';
   }
+  // 4. IIS fallback
+  if (process.env.REACT_APP_IIS_BACKEND_URL) {
+    return process.env.REACT_APP_IIS_BACKEND_URL;
+  }
+  // 5. Final fallback
   return 'http://localhost:82';
 };
 
