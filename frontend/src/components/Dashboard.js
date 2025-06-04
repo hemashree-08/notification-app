@@ -6,19 +6,19 @@ import './Dashboard.css';
 
 // Get the backend URL based on environment
 export const getBackendUrl = () => {
-  // Use environment variable if set (for Render or other cloud builds)
+  // Always use deployed backend for production
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://notification-app-backend.onrender.com';
+  }
+  // Use environment variable if set (for local dev override)
   if (process.env.REACT_APP_BACKEND_URL) {
     return process.env.REACT_APP_BACKEND_URL;
   }
   const hostname = window.location.hostname;
   const port = window.location.port;
-  
-  // If running on localhost with development port
   if (hostname === 'localhost' && port === '3003') {
     return 'http://localhost:3002';
   }
-  
-  // If running on IIS (production or test)
   return 'http://localhost:82';
 };
 
