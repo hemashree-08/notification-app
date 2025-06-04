@@ -6,6 +6,7 @@ import './Dashboard.css';
 
 // Get the backend URL based on environment
 export const getBackendUrl = () => {
+  console.log('DEBUG: NODE_ENV:', process.env.NODE_ENV, 'REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL);
   // 1. Use deployed backend in production (Render, Vercel, Netlify, etc.)
   if (process.env.NODE_ENV === 'production') {
     return process.env.REACT_APP_BACKEND_URL || 'https://notification-app-backend.onrender.com';
