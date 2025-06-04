@@ -1,0 +1,7 @@
+Update App.js to:
+- Remove all references to Register, LoginRegister, and registration logic.
+- Use only Login.js (or components/Login.js) for login.
+- Ensure the app starts with the login page and routes to Dashboard after login.
+
+Update api/authApi.js to:
+- Remove registerUser function and any registration logic.

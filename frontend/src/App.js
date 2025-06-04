@@ -5,7 +5,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import LoginRegister from './LoginRegister';
+import Login from './Login';
 import Dashboard from './components/Dashboard';
 import { getBackendUrl } from './components/Dashboard';
 
@@ -61,8 +61,6 @@ const App = () => {
           
           const endTime = performance.now();
           const processingTime = (endTime - startTime).toFixed(2);
-          console.log(`[${new Date().toLocaleTimeString()}] Finished loading alerts in ${processingTime}ms`);
-          alert(`Notifications loaded in ${processingTime}ms`);
         } catch (error) {
           console.error('Error fetching alerts:', error);
         }
@@ -181,59 +179,19 @@ const App = () => {
     setUserInfo(userData);
   };
 
-  if (!userInfo) {
-    return (
-      <Router>
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              <LoginRegister onLogin={handleLogin} />
-            } 
-          />
-          <Route 
-            path="/dashboard" 
-            element={
-              <Navigate to="/" />
-            } 
-          />
-        </Routes>
-        <ToastContainer />
-      </Router>
-    );
-  }
-
   return (
     <Router>
-    <div className="app-container">
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              userInfo ? <Navigate to="/dashboard" /> : <LoginRegister onLogin={handleLogin} />
-            } 
-          />
-          <Route 
-            path="/dashboard" 
-            element={
-              userInfo ? (
-                <Dashboard 
-                  userInfo={userInfo} 
-                  setUserInfo={setUserInfo} 
-                  alerts={alerts}
-                  setAlerts={setAlerts}
-                  stats={stats}
-                  setStats={setStats}
-                  onLogout={handleLogout}
-                />
+      <ToastContainer />
+      <Routes>
+        {!userInfo ? (
+          <Route path="/*" element={<Login onLogin={handleLogin} />} />
         ) : (
-                <Navigate to="/" />
-              )
-            } 
-          />
-        </Routes>
-        <ToastContainer />
-      </div>
+          <>
+            <Route path="/dashboard" element={<Dashboard userInfo={userInfo} setUserInfo={setUserInfo} alerts={alerts} setAlerts={setAlerts} stats={stats} setStats={setStats} />} />
+            <Route path="*" element={<Navigate to="/dashboard" />} />
+          </>
+        )}
+      </Routes>
     </Router>
   );
 };

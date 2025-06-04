@@ -1,0 +1,7 @@
+Remove the following files and their references:
+- src/components/Register.js
+- src/components/Register.css
+- src/LoginRegister.js
+- src/LoginRegister.css
+
+Update App.js and any routing to use only Login.js (or components/Login.js) for login.

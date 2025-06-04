@@ -1,23 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './LoginRegister.css';
 
-function Login() {
+function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-    console.log('logged in');
     try {
-      // Use the same backend URL logic as Dashboard.js
       const backendUrl = window.location.hostname === 'localhost' && window.location.port === '3003'
         ? 'http://localhost:3002'
         : 'http://localhost:82';
@@ -29,83 +20,135 @@ function Login() {
 
       const data = await response.json();
       if (response.ok) {
-        console.log('Login successful. User data:', data);
-        // Store complete user data
         const userData = {
           userId: data.userId,
           username: data.username,
           timestamp: new Date().toISOString()
         };
-        localStorage.setItem('userInfo', JSON.stringify(userData));
-        
-        // Display user ID in an alert
-        alert(`Login successful! Your User ID is: ${data.userId}`);
-        
+        if (onLogin) onLogin(userData);
         navigate('/dashboard');
       } else {
         alert(data.message || 'Login failed!');
       }
     } catch (error) {
-      console.error('Login error:', error);
       alert('An error occurred during login.');
     }
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
-            autoComplete="username"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            autoComplete="current-password"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            id="confirmPassword"
-            name="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm your password"
-            autoComplete="new-password"
-            required
-          />
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    }}>
+      <div className="login-card" style={{
+        background: 'rgba(255,255,255,0.95)',
+        borderRadius: '18px',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.25)',
+        padding: '2.2rem 1.5rem 2rem 1.5rem',
+        minWidth: 260,
+        maxWidth: 320,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <h1 style={{
+          fontFamily: 'Segoe UI, sans-serif',
+          fontWeight: 700,
+          fontSize: '2rem',
+          color: '#4f3ca7',
+          marginBottom: '1.5rem',
+          letterSpacing: 1
+        }}>Welcome Back</h1>
+        <form onSubmit={handleLogin} style={{ width: '100%' }}>
+          <div style={{ marginBottom: '1.3rem' }}>
+            <label htmlFor="username" style={{
+              display: 'block',
+              marginBottom: 7,
+              color: '#4f3ca7',
+              fontWeight: 500
+            }}>Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
+              autoComplete="username"
+              required
+              style={{
+                width: '90%',
+                padding: '0.5rem 0.7rem',
+                borderRadius: 7,
+                border: '1.2px solid #bdb6e2',
+                fontSize: '0.98rem',
+                outline: 'none',
+                background: '#f7f7fb',
+                transition: 'border 0.2s',
+                margin: '0 auto',
+                display: 'block'
+              }}
+            />
+          </div>
+          <div style={{ marginBottom: '1.6rem' }}>
+            <label htmlFor="password" style={{
+              display: 'block',
+              marginBottom: 7,
+              color: '#4f3ca7',
+              fontWeight: 500
+            }}>Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              autoComplete="current-password"
+              required
+              style={{
+                width: '90%',
+                padding: '0.5rem 0.7rem',
+                borderRadius: 7,
+                border: '1.2px solid #bdb6e2',
+                fontSize: '0.98rem',
+                outline: 'none',
+                background: '#f7f7fb',
+                transition: 'border 0.2s',
+                margin: '0 auto',
+                display: 'block'
+              }}
+            />
+          </div>
           <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="toggle-password"
+            type="submit"
+            style={{
+              width: '90%',
+              padding: '0.7rem',
+              borderRadius: 7,
+              border: 'none',
+              background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: '1.05rem',
+              letterSpacing: 1,
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px 0 rgba(118, 75, 162, 0.10)',
+              transition: 'background 0.2s, transform 0.1s',
+              margin: '0 auto 8px auto',
+              display: 'block'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = 'linear-gradient(90deg, #764ba2 0%, #667eea 100%)'}
+            onMouseOut={e => e.currentTarget.style.background = 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)'}
           >
-            {showPassword ? 'Hide' : 'Show'}
+            Login
           </button>
-        </div>
-        <button type="submit">Login</button>
-        <button type="button" onClick={() => navigate('/register')}>
-          Register
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

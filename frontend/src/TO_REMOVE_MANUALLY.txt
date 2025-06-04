@@ -1,0 +1,13 @@
+Delete these files to fully remove registration:
+- src/components/Register.js
+- src/components/Register.css
+- src/LoginRegister.js
+- src/LoginRegister.css
+
+Also remove any references to these files in your project if you find any leftovers.
+
+Delete this file to avoid confusion and ensure only the correct login page is used:
+- src/components/Login.js
+
+Make sure App.js imports Login from './Login' and not from './components/Login'.
+If you want, you can also delete this note after cleanup.
