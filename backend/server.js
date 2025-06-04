@@ -24,7 +24,9 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:81',
   'http://localhost:3000',
-  'http://localhost:3003'  // Add localhost:3003
+  'http://localhost:3003',  // Add localhost:3003
+  'http://localhost:82',
+  'https://notification-app-frontend.onrender.com' // Added deployed frontend
 ].filter(Boolean);
 
 console.log('Allowed Origins:', allowedOrigins);
@@ -72,7 +74,8 @@ app.get('/api/alerts/events/:userId', (req, res) => {
     'http://localhost:81',
     'http://localhost:3000',
     'http://localhost:3003',
-    'http://localhost:82'
+    'http://localhost:82',
+    'https://notification-app-frontend.onrender.com' // Added deployed frontend
   ].filter(Boolean);
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
