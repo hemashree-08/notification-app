@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getBackendUrl } from './components/Dashboard';
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -9,9 +10,7 @@ function Login({ onLogin }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const backendUrl = window.location.hostname === 'localhost' && window.location.port === '3003'
-        ? 'http://localhost:3002'
-        : 'http://localhost:82';
+      const backendUrl = getBackendUrl();
       const response = await fetch(`${backendUrl}/api/auth/login`,  {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
